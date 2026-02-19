@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas OS REHAB - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 font-sans">
+
+    <div id="loginSection" class="fixed inset-0 bg-blue-900 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-96">
+            <h2 class="text-2xl font-bold text-center mb-6 text-blue-800">Citas OS REHAB</h2>
+            <div class="space-y-4">
+                <input type="text" id="usuario" placeholder="Usuario" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                <input type="password" id="pin" placeholder="PIN de Seguridad" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="otpCode" placeholder="Código 2FA (Authenticator)" class="w-full p-3 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                <button onclick="login()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">ENTRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="appSection" class="hidden">
+        <nav class="bg-white shadow-sm p-4 flex justify-between items-center border-b">
+            <h1 class="text-xl font-bold text-blue-700"><i class="fas fa-heartbeat"></i> OS REHAB</h1>
+            <div class="flex items-center gap-4">
+                <span id="userNameDisplay" class="text-gray-600 italic"></span>
+                <button onclick="logout()" class="text-red-500 hover:underline">Cerrar Sesión</button>
+            </div>
+        </nav>
+
+        <main class="p-6 max-w-6xl mx-auto">
+            <div class="bg-white p-6 rounded-lg shadow-sm mb-8 border">
+                <h3 class="font-bold text-lg mb-4 text-gray-700 border-b pb-2">Agendar Nueva Cita</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" id="formPaciente" placeholder="Nombre del Paciente" class="p-2 border rounded">
+                    <select id="formTerapista" class="p-2 border rounded">
+                        <option value="">Seleccionar Terapista...</option>
+                        <option value="Lic. Agnes Delgado">Lic. Agnes Delgado</option>
+                        <option value="Lic. Fernanda Ortíz">Lic. Fernanda Ortíz</option>
+                    </select>
+                    <input type="date" id="formFecha" class="p-2 border rounded">
+                    <input type="time" id="formHora" class="p-2 border rounded">
+                    <input type="text" id="formTratamiento" placeholder="Tratamiento (ej. Fisioterapia)" class="p-2 border rounded">
+                    <button onclick="crearCita()" class="bg-green-600 text-white font-bold rounded hover:bg-green-700">Guardar Cita</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-100 text-gray-600 uppercase text-sm">
+                        <tr>
+                            <th class="p-4 border-b">ID</th>
+                            <th class="p-4 border-b">Terapista</th>
+                            <th class="p-4 border-b">Paciente</th>
+                            <th class="p-4 border-b">Fecha/Hora</th>
+                            <th class="p-4 border-b">Tratamiento</th>
+                            <th class="p-4 border-b">Estado</th>
+                            <th class="p-4 border-b text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCitas" class="text-gray-700">
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyPthPdXjycgpxLzTQ8TV0bYVZ9Abvwyp4TduQuZO4dP1533EQT0Nck-LAvYOVTybQuJA/exec";
+        let session = { usuario: "", token: "", role: "" };
+
+        async function login() {
+            const auth = {
+                usuario: document.getElementById('usuario').value,
+                pin: document.getElementById('pin').value,
+                otpCode: document.getElementById('otpCode').value
+            };
+
+            const resp = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ accion: 'LOGIN', auth: auth })
+            });
+            const data = await resp.json();
+
+            if (data.status === "Success") {
+                session = { usuario: auth.usuario, token: data.token, role: data.role };
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('appSection').classList.remove('hidden');
+                document.getElementById('userNameDisplay').innerText = `Hola, ${session.usuario}`;
+                cargarCitas();
+            } else {
+                alert("Error: " + data.error);
+            }
+        }
+
+        async function cargarCitas() {
+            const resp = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ accion: 'LEER', auth: session })
+            });
+            const filas = await resp.json();
+            const tabla = document.getElementById('tablaCitas');
+            tabla.innerHTML = "";
+
+            // Omitir encabezados (i=1)
+            for (let i = 1; i < filas.length; i++) {
+                const fila = filas[i];
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 border-b";
+                tr.innerHTML = `
+                    <td class="p-4">${fila[0]}</td>
+                    <td class="p-4 font-semibold">${fila[1]}</td>
+                    <td class="p-4">${fila[2]}</td>
+                    <td class="p-4">${fila[3]} <br><small class="text-gray-400">${fila[4]}</small></td>
+                    <td class="p-4">${fila[5]}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs ${fila[6] === 'Completada' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${fila[6]}</span></td>
+                    <td class="p-4 text-center">
+                        ${session.role === 'admin' ? `<button onclick="eliminarCita('${fila[0]}')" class="text-red-500 hover:text-red-700 mr-2"><i class="fas fa-trash"></i></button>` : ''}
+                        <button onclick="actualizarCita('${fila[0]}', 'Completada')" class="text-blue-500 hover:text-blue-700"><i class="fas fa-check-circle"></i></button>
+                    </td>
+                `;
+                tabla.appendChild(tr);
+            }
+        }
+
+        async function crearCita() {
+            const datos = {
+                paciente: document.getElementById('formPaciente').value,
+                terapista: document.getElementById('formTerapista').value,
+                fecha: document.getElementById('formFecha').value,
+                hora: document.getElementById('formHora').value,
+                tratamiento: document.getElementById('formTratamiento').value
+            };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ accion: 'CREAR', auth: session, datos: datos })
+            });
+            cargarCitas();
+        }
+
+        async function eliminarCita(id) {
+            if(!confirm("¿Eliminar esta cita?")) return;
+            await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ accion: 'ELIMINAR', auth: session, datos: { id: id } })
+            });
+            cargarCitas();
+        }
+
+        function logout() { location.reload(); }
+        
+        async function actualizarCita(id, nuevoEstado) {
+    await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ 
+            accion: 'ACTUALIZAR_ESTADO', 
+            auth: session, 
+            datos: { id: id, nuevoEstado: nuevoEstado } 
+        })
+    });
+    cargarCitas();
+}
+    </script>
+</body>
+</html>
