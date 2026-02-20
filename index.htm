@@ -12,6 +12,20 @@
         .completada { opacity: 0.5; filter: grayscale(1); border-style: dashed !important; background: #f1f5f9 !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* Forzar color negro en inputs de fecha y hora para móviles */
+input[type="date"]::-webkit-datetime-edit,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-datetime-edit {
+    color: #0f172a !important; /* text-slate-900 */
+}
+
+input[type="date"]:before {
+    color: #94a3b8; /* Color gris para el placeholder cuando está vacío */
+    content: attr(placeholder);
+}
+
     </style>
 </head>
 <body class="bg-[#f8fafc] min-h-screen font-sans">
@@ -69,8 +83,8 @@
         <option value="Lic. Fernanda Díaz">Lic. Fernanda Díaz</option>
     </select>
 
-    <input type="date" id="formFecha" class="p-3 border rounded-xl text-sm text-slate-900 bg-white">
-    <input type="time" id="formHora" class="p-3 border rounded-xl text-sm text-slate-900 bg-white">
+<input type="date" id="formFecha" class="p-3 border rounded-xl text-sm text-slate-900 bg-white min-h-[3rem] appearance-none">
+    <input type="time" id="formHora" class="p-3 border rounded-xl text-sm text-slate-900 bg-white min-h-[3rem] appearance-none">
     
     <input type="text" id="formTratamiento" placeholder="Tratamiento" class="p-3 border rounded-xl text-sm text-slate-900">
     
@@ -173,13 +187,17 @@
                     <div class="text-xs text-slate-500 italic mb-6 px-1"><i class="fas fa-notes-medical mr-2 text-slate-300"></i>${f[5]}</div>
 
                     <div class="flex gap-2 pt-4 border-t border-slate-50">
-                        <button onclick="enviarMailto('${f[2]}','${f[1]}','${f[3]}','${f[4]}','${f[5]}','${f[8]}','${f[7]}')" class="flex-1 bg-blue-600 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition shadow-lg shadow-blue-50">Notificar</button>
+                        <button onclick="enviarMailto('${f[2]}','${f[1]}','${f[3]}','${f[4]}','${f[5]}','${f[8]}','${f[7]}')" 
+    class="flex-1 bg-blue-600 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition shadow-lg flex items-center justify-center gap-2">
+    <i class="fas fa-envelope"></i> Notificar
+</button>
                         <button onclick="actualizarCita('${f[0]}', '${esComp ? 'Pendiente' : 'Completada'}')" 
                             class="px-4 py-3 rounded-xl transition ${esComp ? 'bg-orange-50 text-orange-600 hover:bg-orange-600 hover:text-white' : 'bg-green-50 text-green-600 hover:bg-green-600 hover:text-white'}">
                             <i class="fas ${esComp ? 'fa-undo' : 'fa-check'}"></i>
                         </button>
                         ${session.role === 'admin' ? `<button onclick="eliminarCita('${f[0]}')" class="px-4 py-3 bg-red-50 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition"><i class="fas fa-trash-alt"></i></button>` : ''}
                     </div>
+                    
                 `;
                 cont.appendChild(card);
             });
@@ -227,3 +245,4 @@ function enviarMailto(paciente, fisioterapeuta, fecha, hora, tratamiento, email,
     </script>
 </body>
 </html>
+
