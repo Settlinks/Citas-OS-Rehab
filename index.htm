@@ -60,18 +60,24 @@
                 <input type="text" id="searchInput" onkeyup="filtrarCitas()" placeholder="Buscar por paciente, ID o Código de seguimiento..." class="w-full p-4 pl-14 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-blue-500 outline-none text-lg">
             </div>
 
-            <div class="bg-white p-5 rounded-[24px] border shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-                <input type="text" id="formPaciente" placeholder="Paciente" class="p-3 border rounded-xl text-sm bg-slate-50">
-                <input type="email" id="formEmail" placeholder="Email" class="p-3 border rounded-xl text-sm bg-slate-50">
-                <select id="formfisioterapeuta" class="p-3 border rounded-xl bg-blue-50 font-bold text-sm">
-                    <option value="Klga. Agnes Delgado">Klga. Agnes Delgado</option>
-                    <option value="Lic. Fernanda Díaz">Lic. Fernanda Díaz</option>
-                </select>
-                <input type="date" id="formFecha" class="p-3 border rounded-xl text-sm">
-                <input type="time" id="formHora" class="p-3 border rounded-xl text-sm">
-                <input type="text" id="formTratamiento" placeholder="Tratamiento" class="p-3 border rounded-xl text-sm">
-                <button onclick="crearCita()" class="bg-blue-600 text-white font-black rounded-xl hover:bg-blue-700 transition uppercase text-xs">Guardar Cita</button>
-            </div>
+<div class="bg-white p-5 rounded-[24px] border shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+    <input type="text" id="formPaciente" placeholder="Paciente" class="p-3 border rounded-xl text-sm bg-slate-50 text-slate-900">
+    <input type="email" id="formEmail" placeholder="Email" class="p-3 border rounded-xl text-sm bg-slate-50 text-slate-900">
+    
+    <select id="formfisioterapeuta" class="p-3 border rounded-xl bg-blue-50 font-bold text-sm text-blue-900">
+        <option value="Klga. Agnes Delgado">Klga. Agnes Delgado</option>
+        <option value="Lic. Fernanda Díaz">Lic. Fernanda Díaz</option>
+    </select>
+
+    <input type="date" id="formFecha" class="p-3 border rounded-xl text-sm text-slate-900 bg-white">
+    <input type="time" id="formHora" class="p-3 border rounded-xl text-sm text-slate-900 bg-white">
+    
+    <input type="text" id="formTratamiento" placeholder="Tratamiento" class="p-3 border rounded-xl text-sm text-slate-900">
+    
+    <button onclick="crearCita()" class="py-4 bg-blue-600 text-white font-black rounded-xl hover:bg-blue-700 transition uppercase text-xs shadow-md">
+        Guardar Cita
+    </button>
+</div>
 
             <div class="flex flex-col xl:flex-row gap-6">
                 <div id="listaCitasCards" class="flex-grow grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4"></div>
