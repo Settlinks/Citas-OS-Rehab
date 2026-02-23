@@ -30,29 +30,29 @@ input[type="date"]:before {
 </head>
 <body class="bg-[#f8fafc] min-h-screen font-sans">
 
-    <div id="loginSection" class="fixed inset-0 bg-blue-900 flex items-center justify-center p-4 z-[100]">
+    <div id="loginSection" class="fixed bg-[#F3E8D8] inset-0 flex items-center justify-center p-4 z-[100]">
         <div class="bg-white p-8 rounded-[32px] shadow-2xl w-full max-w-md">
 <div class="flex flex-col items-center justify-center mb-8 gap-2">
     <img src="https://static.wixstatic.com/media/49ea47_e5efa3bc0ee848f6b691bb24765cb5f1~mv2.png" alt="Logo" class="h-16 w-auto">
-    <h2 class="text-1xl font-bold text-blue-800  tracking-tighter italic">Administrador de Citas</h2>
+    <h2 class="text-1xl font-bold text-[#4b707b] tracking-tighter italic">Administrador de Citas</h2>
 </div>
             <div class="space-y-4">
 <input type="text" id="usuario" placeholder="Usuario" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
                 <input type="password" id="pin" placeholder="PIN de Seguridad" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
                 <input type="text" id="otpCode" placeholder="Código 2FA (Authenticator)" class="w-full p-3 border border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                <button onclick="login()" class="w-full bg-blue-600 text-white p-5 rounded-2xl font-black shadow-lg active:scale-95 transition">INGRESAR AL SISTEMA</button>
+                <button onclick="login()" class="w-full bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg active:scale-95 transition">INGRESAR AL SISTEMA</button>
             </div>
         </div>
     </div>
 
-<div id="appSection" class="hidden min-h-screen flex flex-col">
+<div id="appSection" class="hidden min-h-screen bg-[#F3E8D8] flex flex-col">
     <nav class="bg-white border-b p-2 px-6 flex justify-between items-center sticky top-0 z-50">
         <div class="flex flex-col items-center justify-center">
             <img src="https://static.wixstatic.com/media/49ea47_e5efa3bc0ee848f6b691bb24765cb5f1~mv2.png" 
                  alt="Logo" 
                  class="h-12 w-auto object-contain">
             
-            <span class="font-bold text-blue-900 text-sm tracking-tighter leading-none mt-1">
+            <span class="font-bold text-[#4b707b] text-sm tracking-tighter leading-none mt-1">
                 Medical & Health
             </span>
         </div>
@@ -88,7 +88,7 @@ input[type="date"]:before {
     
     <input type="text" id="formTratamiento" placeholder="Tratamiento" class="p-3 border rounded-xl text-sm text-slate-900">
     
-    <button onclick="crearCita()" class="py-4 bg-blue-600 text-white font-black rounded-xl hover:bg-blue-700 transition uppercase text-xs shadow-md">
+    <button onclick="crearCita()" class="py-4 bg-[#4b707b] text-white font-black rounded-xl hover:bg-[#293e43] transition uppercase text-xs shadow-md">
         Guardar Cita
     </button>
 </div>
@@ -170,8 +170,8 @@ input[type="date"]:before {
                     <div class="flex justify-between items-start mb-4">
                         <div class="space-y-1">
                             <div class="flex gap-2 items-center">
-                                <span class="text-[9px] font-black bg-blue-600 text-white px-2 py-0.5 rounded uppercase">${f[0]}</span>
-                                <span class="text-[9px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-mono">CÓD: ${f[7]}</span>
+                                <span class="text-[12px] font-black bg-[#4b707b] text-white px-2 py-0.5 rounded uppercase">CITA: ${f[0]}</span>
+                                <span class="text-[12px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-mono">CÓD. DE SEGUIMIENTO: ${f[7]}</span>
                             </div>
                             <h4 class="font-black text-blue-900 text-lg uppercase leading-none pt-1">${f[2]}</h4>
                             <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest">${f[1]}</p>
@@ -181,14 +181,14 @@ input[type="date"]:before {
                     
                     <div class="bg-slate-50 rounded-2xl p-3 mb-4 flex justify-between items-center text-[11px]">
                         <div class="font-bold text-slate-600 capitalize"><i class="far fa-calendar-alt mr-2 text-blue-400"></i>${f[3]}</div>
-                        <div class="font-black text-blue-800"><i class="far fa-clock mr-2 text-blue-400"></i>${f[4]}</div>
+                        <div class="font-black text-[#4b707b]"><i class="far fa-clock mr-2 text-blue-400"></i>${f[4]}</div>
                     </div>
 
                     <div class="text-xs text-slate-500 italic mb-6 px-1"><i class="fas fa-notes-medical mr-2 text-slate-300"></i>${f[5]}</div>
 
                     <div class="flex gap-2 pt-4 border-t border-slate-50">
                         <button onclick="enviarMailto('${f[2]}','${f[1]}','${f[3]}','${f[4]}','${f[5]}','${f[8]}','${f[7]}')" 
-    class="flex-1 bg-blue-600 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition shadow-lg flex items-center justify-center gap-2">
+    class="flex-1 bg-[#4b707b] text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#293e43] transition shadow-lg flex items-center justify-center gap-2">
     <i class="fas fa-envelope"></i> Notificar
 </button>
                         <button onclick="actualizarCita('${f[0]}', '${esComp ? 'Pendiente' : 'Completada'}')" 
