@@ -43,7 +43,9 @@ input[type="date"]:before {
                 <button onclick="login()" class="w-full bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg active:scale-95 transition">INGRESAR AL SISTEMA</button>
             </div>
         </div>
+        
     </div>
+    
 
 <div id="appSection" class="hidden min-h-screen bg-[#F3E8D8] flex flex-col">
     <nav class="bg-white border-b p-2 px-6 flex justify-between items-center sticky top-0 z-50">
@@ -58,7 +60,7 @@ input[type="date"]:before {
         </div>
         
         <div class="flex items-center gap-4"><span>   <button type="button" 
-        onclick="window.location.href='Registros.htm'" 
+        onclick="window.location.href='./registros'" 
         class="flex-1 bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg transition transform active:scale-95 uppercase flex items-center justify-center">
     Registrar Paciente <i class="fas fa-user-plus ml-3"></i>
 </button></span>
@@ -110,7 +112,6 @@ input[type="date"]:before {
             </div>
         </div>
     </div>
-
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxAWvbo5M8TLh8blA0Q43uJ0RxyFO3pqFEzkOho6Z2GO-69qcvbgRKCWJp50aLxC0Qfzw/exec";
         let todasLasCitas = [];
