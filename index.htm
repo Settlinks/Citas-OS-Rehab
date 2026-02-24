@@ -57,7 +57,11 @@ input[type="date"]:before {
             </span>
         </div>
         
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4"><span>   <button type="button" 
+        onclick="window.location.href='Registros.htm'" 
+        class="w-full bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg transition transform active:scale-95 uppercase">
+    Ir a Registros
+</button></span>
             <div class="text-right">
                 <p id="userNameDisplay" class="font-black text-slate-800 text-sm uppercase leading-none"></p>
                 <p class="text-[9px] font-bold text-blue-500 tracking-widest uppercase">Panel de Control</p>
@@ -68,8 +72,10 @@ input[type="date"]:before {
         </div>
     </nav>
 
+
         <div class="p-4 lg:p-6 space-y-6 w-full max-w-full">
-            <div class="relative max-w-4xl mx-auto w-full">
+  
+            <div class="relative max-w-4xl mx-auto w-full">       
                 <i class="fas fa-search absolute left-5 top-5 text-slate-400"></i>
                 <input type="text" id="searchInput" onkeyup="filtrarCitas()" placeholder="Buscar por paciente, ID o Código de seguimiento..." class="w-full p-4 pl-14 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-blue-500 outline-none text-lg">
             </div>
