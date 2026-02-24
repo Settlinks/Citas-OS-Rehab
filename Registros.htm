@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Pacientes - OS REHAB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .input-premium { @apply w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#4b707b] outline-none transition-all bg-slate-50; }
+        .label-premium { @apply block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 ml-1; }
+    </style>
+</head>
+<body class="bg-[#F3E8D8] min-h-screen font-sans p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col items-center mb-8 text-center">
+            <img src="https://static.wixstatic.com/media/49ea47_e5efa3bc0ee848f6b691bb24765cb5f1~mv2.png" alt="Logo" class="h-24 mb-2">
+            <h1 class="text-2xl font-black text-[#4b707b] italic">EXPEDIENTE DIGITAL DE PACIENTES</h1>
+            <p class="text-slate-500 text-sm">Por favor, completa los datos para iniciar tu historial clínico.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-[32px] shadow-xl border border-white">
+                    <form id="registroForm" class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="label-premium">Nombre Completo</label>
+                                <input type="text" id="nombre" class="input-premium bg-slate-100 rounded-xl" placeholder=" Ej. Juan Pérez" required>
+                            </div>
+                            <div>
+                                <label class="label-premium">Correo Electrónico</label>
+                                <input type="email" id="email" class="input-premium bg-slate-100 rounded-xl" placeholder=" correo@ejemplo.com" required>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="label-premium">Teléfono</label>
+                                <input type="tel" id="telefono" class="input-premium bg-slate-100 rounded-xl" placeholder=" 55 1234 5678">
+                            </div>
+                            <div>
+                                <label class="label-premium">Fecha de Nacimiento</label>
+                                <input type="date" id="fechaNac" class="input-premium bg-slate-100 rounded-xl">
+                            </div>
+                            <div>
+                                <label class="label-premium">Género</label>
+                                <select id="genero" class="input-premium bg-slate-100 rounded-xl">
+                                    <option value="O">Seleccionar</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                    <option value="O">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr class="border-slate-100">
+
+                        <div>
+                            <label class="label-premium">Antecedentes Médicos / Lesiones Previas</label>
+                            <textarea id="antecedentes" class="input-premium h-15 w-full rounded-xl bg-slate-100" placeholder=" Cirugías, fracturas, alergias o enfermedades crónicas..."></textarea>
+                        </div>
+
+                        <div>
+                            <label class="label-premium">Motivo de la Consulta Actual</label>
+                            <input type="text" id="motivo" class="input-premium bg-slate-100 w-full rounded-xl" placeholder=" ¿Qué zona presenta dolor o molestia?">
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                            <label class="label-premium text-blue-600">Documentos y Estudios (Link Drive/Dropbox)</label>
+                            <p class="text-[10px] text-blue-400 mb-2 italic">Si tienes radiografías o resonancias, pega aquí el enlace de tu carpeta compartida.</p>
+                            <div class="relative">
+                                <i class="fas fa-link absolute left-3 top-1 text-blue-300"></i>
+                                <input type="url" id="estudiosUrl" class="input-premium pl-10 border-blue-200" placeholder="https://drive.google.com/...">
+                            </div>
+                            <p class="text-[10px] text-blue-400 mb-2 italic"></p>
+                            <div>
+    <label class="label-premium text-blue-600">Subir Estudios (PDF/Imagen)</label>
+    <input type="file" id="archivoEstudio" class="input-premium border-blue-200">
+</div>
+                            <p class="text-[10px] text-blue-400 mb-2 italic">Si no cuentas con tus documentos en digital, favor de presentarlos en físico el día de tu cita.</p>
+                        </div>
+
+                        <button type="button" onclick="registrarPaciente()" class="w-full bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg transition transform active:scale-95 uppercase">
+                            Finalizar Registro de Paciente
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-[32px] shadow-lg border-2 border-[#4b707b]/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-[#4b707b] text-white p-3 rounded-xl">
+                            <i class="fas fa-search-location text-xl"></i>
+                        </div>
+                        <h3 class="font-black text-slate-800 leading-tight">SEGUIMIENTO<br>DE CITA</h3>
+                    </div>
+                    
+                    <p class="text-xs text-slate-500 mb-4">¿Ya tienes una cita agendada? Consulta el estado de tu tratamiento aquí.</p>
+                    
+                    <div class="space-y-3">
+                        <input type="text" id="trackCode" placeholder="Ingresar código (Ej: 8H2K9L)" 
+                               class="w-full p-4 bg-slate-100 border-none rounded-xl text-center font-mono font-bold text-[#4b707b] uppercase tracking-widest focus:ring-2 focus:ring-[#4b707b]">
+                        
+                        <button onclick="irASeguimiento()" class="w-full bg-[#4b707b] text-white py-4 rounded-xl font-bold hover:bg-[#293e43] transition shadow-md">
+                            Seguimiento a Consulta <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-[#4b707b] p-6 rounded-[32px] text-white">
+                    <h4 class="font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>¿Eres nuevo?</h4>
+                    <p class="text-xs opacity-80 leading-relaxed">Al registrarte, nuestros fisioterapeutas podrán revisar tus estudios previamente para optimizar el tiempo de tu sesión presencial.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbz1LSplhpuQXDuSXkEpuOpAqDIHUxM8F2Wkpg5YbP7A2g5H2QVI5chCNu_oezyNEjB2Ig/exec";
+
+        async function registrarPaciente() {
+            const btn = event.target;
+            const datos = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                fechaNac: document.getElementById('fechaNac').value,
+                genero: document.getElementById('genero').value,
+                antecedentes: document.getElementById('antecedentes').value,
+                motivo: document.getElementById('motivo').value,
+                estudiosUrl: document.getElementById('estudiosUrl').value
+            };
+
+            if(!datos.nombre || !datos.email) return alert("Por favor complete nombre y correo.");
+
+            btn.disabled = true;
+            btn.innerText = "PROCESANDO...";
+
+            try {
+                const resp = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ accion: 'REGISTRAR_PACIENTE', datos })
+                });
+                const res = await resp.json();
+                if(res.status === "Success") {
+                    alert("Registro exitoso. Tu ID de paciente es: " + res.id);
+                    document.getElementById('registroForm').reset();
+                }
+            } catch (e) {
+                alert("Error al registrar: " + e.toString());
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "FINALIZAR REGISTRO DE PACIENTE";
+            }
+        }
+
+async function irASeguimiento() {
+    const code = document.getElementById('trackCode').value.trim();
+    if (!code) return alert("Por favor ingresa un código.");
+
+    // Cambiamos el texto del botón para dar feedback visual
+    const btn = document.querySelector("button[onclick='irASeguimiento()']");
+    const originalText = btn.innerHTML;
+    btn.innerText = "BUSCANDO...";
+    btn.disabled = true;
+
+    try {
+        const resp = await fetch(API_URL, { 
+            method: 'POST', 
+            body: JSON.stringify({ 
+                accion: 'CONSULTAR_CITAS_PACIENTE', 
+                datos: { codigo: code } 
+            }) 
+        });
+        
+        const res = await resp.json();
+
+        if (res.status === "Success") {
+            // Mostramos la información en un alert formateado (o puedes usar un modal de Tailwind)
+            alert(
+                `📍 INFORMACIÓN DE TU CITA:\n` +
+                `----------------------------------\n` +
+                `Paciente: ${res.datos.paciente}\n` +
+                `Fecha: ${res.datos.fecha}\n` +
+                `Hora: ${res.datos.hora}\n` +
+                `Tratamiento: ${res.datos.tratamiento}\n` +
+                `Estado: ${res.datos.estado.toUpperCase()}`
+            );
+        } else {
+            alert(res.error || "Código no válido.");
+        }
+    } catch (e) {
+        alert("Error de conexión al buscar la cita.");
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
+    </script>
+    
+    <div id="modalSeguimiento" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[200] p-4">
+    <div class="bg-white w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl transform transition-all">
+        <div class="bg-[#4b707b] p-6 text-white text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-calendar-check text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-black uppercase italic">Estado de tu Cita</h3>
+        </div>
+        <div id="detalleCita" class="p-8 space-y-4">
+            </div>
+        <div class="p-6 bg-slate-50 border-t">
+            <button onclick="document.getElementById('modalSeguimiento').classList.add('hidden')" 
+                    class="w-full py-4 bg-slate-800 text-white font-bold rounded-2xl hover:bg-black transition">
+                ENTENDIDO
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
