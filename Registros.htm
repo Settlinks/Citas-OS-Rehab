@@ -76,16 +76,26 @@
                                 <input type="url" id="estudiosUrl" class="input-premium pl-10 border-blue-200" placeholder="https://drive.google.com/...">
                             </div>
                             <p class="text-[10px] text-blue-400 mb-2 italic"></p>
-                            <div>
-    <label class="label-premium text-blue-600">Subir Estudios (PDF/Imagen)</label>
-    <input type="file" id="archivoEstudio" class="input-premium border-blue-200">
+                           
+                            
+
+    <label class="label-premium text-blue-600">Subir Estudios (PDF o Imagen)</label>
+    <input type="file" id="archivoEstudio" class="input-premium border-blue-200" accept="image/*,.pdf">
+    <p class="text-[10px] text-blue-400 mb-2 italic">Formatos permitidos: PDF, JPG, PNG.</p>
+ <p class="text-[10px] text-blue-400 mt-4 italic"></p>
+    <button type="button" 
+            onclick="window.location.href='index.htm'" 
+            class="w-full bg-slate-800 hover:bg-black text-white p-4 rounded-2xl font-bold transition uppercase text-sm">
+        <i class="fas fa-arrow-left mr-2"></i> Volver al Inicio
+    </button>
+    <p class="text-[10px] text-blue-400 mt-2 italic italic">Si no cuentas con tus documentos en digital, favor de presentarlos en físico el día de tu cita.</p>
 </div>
-                            <p class="text-[10px] text-blue-400 mb-2 italic">Si no cuentas con tus documentos en digital, favor de presentarlos en físico el día de tu cita.</p>
-                        </div>
 
                         <button type="button" onclick="registrarPaciente()" class="w-full bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg transition transform active:scale-95 uppercase">
                             Finalizar Registro de Paciente
                         </button>
+                        
+                        
                     </form>
                 </div>
             </div>
