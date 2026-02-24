@@ -11,6 +11,7 @@
         .label-premium { @apply block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 ml-1; }
     </style>
 </head>
+
 <body class="bg-[#F3E8D8] min-h-screen font-sans p-4 md:p-8">
 
     <div class="max-w-4xl mx-auto">
@@ -82,14 +83,8 @@
     <label class="label-premium text-blue-600">Subir Estudios (PDF o Imagen)</label>
     <input type="file" id="archivoEstudio" class="input-premium border-blue-200" accept="image/*,.pdf">
     <p class="text-[10px] text-blue-400 mb-2 italic">Formatos permitidos: PDF, JPG, PNG.</p>
- <p class="text-[10px] text-blue-400 mt-4 italic"></p>
-    <button type="button" 
-            onclick="window.location.href='index.htm'" 
-            class="w-full bg-slate-800 hover:bg-black text-white p-4 rounded-2xl font-bold transition uppercase text-sm">
-        <i class="fas fa-arrow-left mr-2"></i> Volver al Inicio
-    </button>
-    <p class="text-[10px] text-blue-400 mt-2 italic italic">Si no cuentas con tus documentos en digital, favor de presentarlos en físico el día de tu cita.</p>
 </div>
+<p class="text-[12px] text-blue-400 mt-1 italic">Si no cuentas con tus documentos en digital, favor de presentarlos en físico el día de tu cita.</p>
 
                         <button type="button" onclick="registrarPaciente()" class="w-full bg-[#5E6D55] hover:bg-[#293e43] text-white p-5 rounded-2xl font-black shadow-lg transition transform active:scale-95 uppercase">
                             Finalizar Registro de Paciente
@@ -231,5 +226,11 @@ async function irASeguimiento() {
         </div>
     </div>
 </div>
+<p class="text-[12px] text-blue-400 mt-8 italic"></p>
+    <div><button type="button" 
+            onclick="window.location.href='index.htm'" 
+            class="w-full bg-slate-800 hover:bg-black text-white p-4 rounded-2xl font-bold transition uppercase text-sm">
+        <i class="fas fa-arrow-left mr-2"></i> Volver al administrador de citas
+    </button></div>
 </body>
 </html>
