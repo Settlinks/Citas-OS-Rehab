@@ -19,13 +19,16 @@
             <h1 class="text-2xl font-black text-[#4b707b] italic uppercase tracking-tighter">Seguimiento a Consulta</h1>
             <p class="text-slate-500 text-sm">Consulta el estado y detalles de tu tratamiento</p>
         </div>
-
+                <div class="bg-[#4b707b] p-6 rounded-[32px] text-white">
+                    <h4 class="font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>¿Eres nuevo?</h4>
+                    <p class="text-xs opacity-80 leading-relaxed">Para dar seguimiento a tu consulta y recibir tu código de seguimiento, primero debes agendar una cita y esta debe ser confirmada y autorizada por nuestros fisioterapeutas. Si tienes dudas, envíanos un correo a: <p class="mt-2">citas@osrehab.com</p></p>
+                </div>
         <div class="bg-white p-6 rounded-[32px] shadow-xl border-2 border-[#4b707b]/10">
             <div class="flex flex-col md:flex-row gap-4">
-                <input type="text" id="trackCode" placeholder="Ingresa tu Código de Cita (Ej: 8H2K9L)" 
+                <input type="text" id="trackCode" placeholder="Ingresa tu Código de Seguimiento (Ej: 8H2K9L)" 
                        class="flex-grow p-4 rounded-2xl border-2 border-slate-100 focus:border-[#4b707b] outline-none text-center font-mono font-bold uppercase tracking-widest text-lg">
                 <button onclick="buscarCitas()" class="bg-[#4b707b] text-white px-8 py-4 rounded-2xl font-black hover:bg-[#293e43] transition shadow-lg uppercase">
-                    Buscar Citas
+                    Buscar Cita
                 </button>
             </div>
         </div>
@@ -33,7 +36,7 @@
         <div id="contenedorTarjetas" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="md:col-span-2 text-center py-20 text-slate-400">
                 <i class="fas fa-clipboard-list text-5xl mb-4 opacity-20"></i>
-                <p class="font-bold">Ingresa tu código para visualizar tus citas agendadas.</p>
+                <p class="font-bold">Ingresa tu código de seguimiento para visualizar tus citas agendadas.</p>
             </div>
         </div>
     </div>
