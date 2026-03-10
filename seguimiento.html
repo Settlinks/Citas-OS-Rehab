@@ -1,117 +1,336 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguimiento a Consulta - OS REHAB</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .card-premium { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
-        .completada { opacity: 0.6; filter: grayscale(0.5); border-style: dashed !important; background: #f1f5f9 !important; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguimiento a Consulta — OS REHAB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <style>
+    .hero-section {
+      background: linear-gradient(145deg, var(--teal-dark) 0%, var(--teal) 60%, var(--teal-light) 100%);
+      padding: 72px 24px 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.05);
+      pointer-events: none;
+    }
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(196,168,130,.08);
+      pointer-events: none;
+    }
+    .search-card {
+      background: var(--cream-card);
+      border-radius: var(--r-2xl);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-soft);
+      padding: 40px;
+      max-width: 580px;
+      margin: -60px auto 0;
+      position: relative;
+      z-index: 2;
+    }
+    .code-input {
+      font-family: 'Outfit', monospace;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: .25em;
+      text-align: center;
+      text-transform: uppercase;
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 18px;
+      width: 100%;
+      outline: none;
+      transition: var(--transition);
+      color: var(--obsidian);
+    }
+    .code-input:focus {
+      border-color: var(--teal);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(61,107,116,.1);
+    }
+    .results-wrap { max-width: 900px; margin: 48px auto; padding: 0 24px 80px; position: relative; z-index: 1; }
+    .result-card {
+      background: var(--cream-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .result-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .result-card-header {
+      background: var(--teal);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .result-card-body { padding: 24px; }
+    .result-card.completada .result-card-header { background: #166534; }
+    .result-card.completada { opacity: .75; }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row-icon {
+      width: 32px; height: 32px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; flex-shrink: 0;
+    }
+    .info-row-label { font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--slate-light); }
+    .info-row-value { font-size: .9rem; font-weight: 600; color: var(--obsidian); }
+  </style>
 </head>
-<body class="bg-[#F3E8D8] min-h-screen font-sans p-4">
+<body>
 
-    <div class="max-w-4xl mx-auto space-y-8">
-        <div class="flex flex-col items-center py-6 text-center">
-            <img src="https://static.wixstatic.com/media/49ea47_e5efa3bc0ee848f6b691bb24765cb5f1~mv2.png" class="h-16 mb-4">
-            <h1 class="text-2xl font-black text-[#4b707b] italic uppercase tracking-tighter">Seguimiento a Consulta</h1>
-            <p class="text-slate-500 text-sm">Consulta el estado y detalles de tu tratamiento</p>
-        </div>
-                <div class="bg-[#4b707b] p-6 rounded-[32px] text-white">
-                    <h4 class="font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>¿Eres nuevo?</h4>
-                    <p class="text-xs opacity-80 leading-relaxed">Para dar seguimiento a tu consulta y recibir tu código de seguimiento, primero debes agendar una cita y esta debe ser confirmada y autorizada por nuestros fisioterapeutas. Si tienes dudas, envíanos un correo a: <p class="mt-2">citas@osrehab.com</p></p>
-                </div>
-        <div class="bg-white p-6 rounded-[32px] shadow-xl border-2 border-[#4b707b]/10">
-            <div class="flex flex-col md:flex-row gap-4">
-                <input type="text" id="trackCode" placeholder="Ingresa tu Código de Seguimiento (Ej: 8H2K9L)" 
-                       class="flex-grow p-4 rounded-2xl border-2 border-slate-100 focus:border-[#4b707b] outline-none text-center font-mono font-bold uppercase tracking-widest text-lg">
-                <button onclick="buscarCitas()" class="bg-[#4b707b] text-white px-8 py-4 rounded-2xl font-black hover:bg-[#293e43] transition shadow-lg uppercase">
-                    Buscar Cita
-                </button>
-            </div>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="https://static.wixstatic.com/media/49ea47_e5efa3bc0ee848f6b691bb24765cb5f1~mv2.png" alt="OS Rehab">
+      <span class="navbar-tagline">Medical & Health</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="./index"       class="nav-link"><i class="fas fa-lock"></i> <span>Admin</span></a>
+      <a href="./registros"   class="nav-link"><i class="fas fa-user-plus"></i> <span>Registro</span></a>
+      <a href="./seguimiento" class="nav-link active"><i class="fas fa-search"></i> <span>Seguimiento</span></a>
+    </div>
+    <div></div>
+  </nav>
 
-        <div id="contenedorTarjetas" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="md:col-span-2 text-center py-20 text-slate-400">
-                <i class="fas fa-clipboard-list text-5xl mb-4 opacity-20"></i>
-                <p class="font-bold">Ingresa tu código de seguimiento para visualizar tus citas agendadas.</p>
-            </div>
+  <!-- Hero -->
+  <div class="hero-section page-enter">
+    <img src="https://static.wixstatic.com/media/49ea47_e5efa3bc0ee848f6b691bb24765cb5f1~mv2.png" alt="OS Rehab"
+         style="height:56px;width:auto;margin:0 auto 24px;display:block;filter:brightness(0) invert(1);opacity:.9">
+    <p style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px">
+      citas.osrehab.com
+    </p>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-style:italic;color:#fff;line-height:1.2;margin-bottom:12px">
+      Seguimiento a Consulta
+    </h1>
+    <p style="font-size:.9rem;color:rgba(255,255,255,.75);max-width:440px;margin:0 auto;line-height:1.7">
+      Ingresa tu código de seguimiento para ver el estado y detalles de tu cita agendada.
+    </p>
+  </div>
+
+  <!-- Search card (overlaps hero) -->
+  <div style="padding:0 16px;position:relative;z-index:2">
+    <div class="search-card page-enter stagger-1">
+      <p style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-light);text-align:center;margin-bottom:6px">
+        Código de seguimiento
+      </p>
+      <p style="font-size:.82rem;color:var(--slate-light);text-align:center;margin-bottom:24px;line-height:1.6">
+        Recibiste este código al confirmar tu cita (Ej: <span style="font-family:monospace;font-weight:700;color:var(--teal)">A3BK9ZTW</span>)
+      </p>
+      <input type="text" id="trackCode" class="code-input" placeholder="· · · · · · · ·"
+             maxlength="8" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"
+             oninput="this.value=this.value.toUpperCase()"
+             onkeydown="if(event.key==='Enter')buscarCitas()">
+      <button onclick="buscarCitas()" id="btnBuscar"
+              class="btn btn-primary btn-lg" style="width:100%;margin-top:16px">
+        <i class="fas fa-search"></i> Buscar mi cita
+      </button>
+      <p style="font-size:.75rem;color:var(--slate-light);text-align:center;margin-top:16px;line-height:1.6">
+        ¿No tienes un código? Tu fisioterapeuta debe confirmar y autorizar tu cita primero.
+        Contáctanos: <a href="mailto:contacto@osrehab.com" style="color:var(--teal);font-weight:600">contacto@osrehab.com</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-wrap">
+    <div id="resultsContainer">
+      <!-- Initial state -->
+      <div id="initialState" style="text-align:center;padding:60px 0;opacity:.6">
+        <div style="width:64px;height:64px;background:var(--teal-mist);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.5rem;color:var(--teal)">
+          <i class="fas fa-clipboard-list"></i>
         </div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--slate-light)">
+          Tus citas aparecerán aquí
+        </p>
+      </div>
     </div>
 
-    <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbz1LSplhpuQXDuSXkEpuOpAqDIHUxM8F2Wkpg5YbP7A2g5H2QVI5chCNu_oezyNEjB2Ig/exec";
+    <!-- Footer nav -->
+    <div style="display:flex;gap:12px;margin-top:48px;flex-wrap:wrap">
+      <a href="./registros" class="btn btn-primary" style="flex:1;min-width:180px;text-decoration:none;display:flex">
+        <i class="fas fa-user-plus"></i> Registrar Paciente
+      </a>
+      <a href="./index" class="btn btn-outline" style="flex:1;min-width:180px;text-decoration:none;display:flex">
+        <i class="fas fa-arrow-left"></i> Administrador
+      </a>
+    </div>
+  </div>
 
-        async function buscarCitas() {
-            const codigo = document.getElementById('trackCode').value.trim().toUpperCase();
-            if(!codigo) return alert("Por favor, ingresa un código.");
+  <script src="./assets/js/api.js"></script>
+  <script>
+    async function buscarCitas() {
+      const codigo = document.getElementById('trackCode').value.trim().toUpperCase();
+      if (!codigo || codigo.length < 4) return showToast('Ingresa un código de seguimiento válido.', 'warning');
+      if (!navigator.onLine) return showToast('Sin conexión a internet.', 'error');
 
-            const cont = document.getElementById('contenedorTarjetas');
-            cont.innerHTML = '<div class="md:col-span-2 text-center py-10 font-bold text-[#4b707b]">Buscando en el sistema...</div>';
+      const cont = document.getElementById('resultsContainer');
+      const btn  = document.getElementById('btnBuscar');
+      document.getElementById('initialState') && (document.getElementById('initialState').style.display = 'none');
 
-            try {
-                const resp = await fetch(API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ accion: 'BUSCAR_CITAS_PACIENTE', datos: { codigo } })
-                });
-                const res = await resp.json();
+      // Skeletons
+      cont.innerHTML = `
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:16px">
+          Resultados para <span style="color:var(--teal);font-family:monospace">${codigo}</span>
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">
+          <div class="skeleton" style="height:220px;border-radius:24px"></div>
+          <div class="skeleton" style="height:220px;border-radius:24px"></div>
+        </div>`;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando…';
 
-                if (res.status === "Success" && res.citas.length > 0) {
-                    cont.innerHTML = "";
-                    res.citas.forEach(f => {
-                        const esComp = f[6] === 'Completada';
-                        const card = document.createElement('div');
-                        // Mismo estilo de tarjeta que en index.htm
-                        card.className = `card-premium p-6 rounded-[28px] bg-white shadow-md ${esComp ? 'completada' : ''}`;
-                        
-                        card.innerHTML = `
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="text-[10px] font-black bg-[#4b707b] text-white px-2 py-1 rounded uppercase mb-2 inline-block">ID: ${f[0]}</span>
-                                    <h4 class="font-black text-blue-900 text-lg uppercase leading-none">${f[5]}</h4>
-                                    <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mt-1">${f[1]}</p>
-                                </div>
-                                <div class="text-[9px] font-black px-3 py-1.5 rounded-xl uppercase ${esComp ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'}">
-                                    ${f[6]}
-                                </div>
-                            </div>
-                            
-                            <div class="bg-slate-50 rounded-2xl p-4 flex justify-between items-center text-sm mb-4">
-                                <div class="font-bold text-slate-600"><i class="far fa-calendar-alt mr-2 text-blue-400"></i>${f[3]}</div>
-                                <div class="font-black text-[#4b707b]"><i class="far fa-clock mr-2 text-blue-400"></i>${f[4]}</div>
-                            </div>
-                            
-                            <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
-                                <i class="fas fa-user-circle text-slate-300"></i>
-                                <span class="text-xs font-bold text-slate-600">${f[2]}</span>
-                            </div>
-                        `;
-                        cont.appendChild(card);
-                    });
-                } else {
-                    cont.innerHTML = '<div class="md:col-span-2 text-center py-10 text-red-500 font-bold">No se encontraron citas vinculadas a ese código.</div>';
-                }
-            } catch (e) {
-                alert("Error de conexión con el servidor.");
-            }
+      try {
+        const res = await apiPost('CONSULTAR_CITAS_PACIENTE', { codigo });
+        const citas = res.citas ? res.citas : (res.datos ? [res.datos] : []);
+
+        if (!citas.length) {
+          cont.innerHTML = `
+            <div style="text-align:center;padding:60px 0">
+              <div style="width:64px;height:64px;background:#fef2f2;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.3rem;color:#dc2626">
+                <i class="fas fa-magnifying-glass"></i>
+              </div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;color:var(--obsidian);margin-bottom:8px">
+                Código no encontrado
+              </h3>
+              <p style="font-size:.85rem;color:var(--slate-light);max-width:360px;margin:0 auto;line-height:1.7">
+                No encontramos citas con el código <strong style="font-family:monospace;color:var(--teal)">${codigo}</strong>. Verifica que el código sea correcto o contáctanos.
+              </p>
+            </div>`;
+          showToast('No se encontraron citas con ese código.', 'error');
+          return;
         }
-    </script>
-    </div>
-<p class="text-[12px] text-blue-400 mt-8 italic"></p>
-<div class="flex flex-col md:flex-row gap-4">
-    <button type="button" 
-            onclick="window.location.href='./index'" 
-            class="flex-1 bg-slate-800 hover:bg-black text-white p-4 rounded-2xl font-bold transition uppercase text-sm flex items-center justify-center">
-        <i class="fas fa-arrow-left mr-2"></i> Volver al administrador
-    </button>
-    
-    <button type="button" 
-            onclick="window.location.href='./registros'" 
-            class="flex-1 bg-[#4b707b] hover:bg-[#293e43] text-white p-4 rounded-2xl font-bold transition uppercase text-sm flex items-center justify-center">
-        Ir a Registro de Pacientes <i class="fas fa-user-plus ml-2"></i>
-    </button>
-</div>
+
+        const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        const cards = citas.map(c => {
+          const id          = c[0]  ?? c.id          ?? '—';
+          const fisio       = c[1]  ?? c.fisio        ?? '—';
+          const paciente    = c[2]  ?? c.paciente     ?? '—';
+          const fecha       = c[3]  ?? c.fecha        ?? '—';
+          const hora        = c[4]  ?? c.hora         ?? '—';
+          const tratamiento = c[5]  ?? c.tratamiento  ?? '—';
+          const estado      = c[6]  ?? c.estado       ?? '—';
+          const esComp = estado === 'Completada';
+
+          let fechaFmt = fecha;
+          try {
+            const d = new Date(fecha + 'T00:00:00');
+            if (!isNaN(d)) fechaFmt = `${d.getDate()} de ${meses[d.getMonth()]} ${d.getFullYear()}`;
+          } catch {}
+
+          return `
+          <div class="result-card ${esComp?'completada':''}">
+            <div class="result-card-header">
+              <div>
+                <span style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);display:block;margin-bottom:4px">ID de Cita</span>
+                <span style="font-size:1rem;font-weight:900;color:#fff;font-family:monospace">${id}</span>
+              </div>
+              <span style="font-size:.72rem;font-weight:700;padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.15);color:#fff;text-transform:uppercase;letter-spacing:.05em">
+                ${esComp ? '<i class="fas fa-check-circle" style="margin-right:5px"></i>' : '<i class="fas fa-hourglass-half" style="margin-right:5px"></i>'}${estado}
+              </span>
+            </div>
+            <div class="result-card-body">
+              <div class="info-row">
+                <div class="info-row-icon" style="background:var(--teal-mist);color:var(--teal)"><i class="fas fa-user"></i></div>
+                <div>
+                  <div class="info-row-label">Paciente</div>
+                  <div class="info-row-value">${paciente}</div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon" style="background:#fff7ed;color:#c2410c"><i class="fas fa-stethoscope"></i></div>
+                <div>
+                  <div class="info-row-label">Tratamiento</div>
+                  <div class="info-row-value">${tratamiento}</div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon" style="background:var(--teal-mist);color:var(--teal)"><i class="fas fa-user-nurse"></i></div>
+                <div>
+                  <div class="info-row-label">Fisioterapeuta</div>
+                  <div class="info-row-value">${fisio}</div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon" style="background:#f0fdf4;color:#166534"><i class="fas fa-calendar"></i></div>
+                <div>
+                  <div class="info-row-label">Fecha</div>
+                  <div class="info-row-value">${fechaFmt}</div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-row-icon" style="background:#fdf4e7;color:#92400e"><i class="fas fa-clock"></i></div>
+                <div>
+                  <div class="info-row-label">Hora</div>
+                  <div class="info-row-value">${hora}</div>
+                </div>
+              </div>
+              ${!esComp ? `
+              <div style="margin-top:16px;padding:14px;background:var(--cream);border-radius:12px;border:1px solid var(--border-soft)">
+                <p style="font-size:.75rem;color:var(--slate-light);line-height:1.6">
+                  <i class="fas fa-info-circle" style="color:var(--teal);margin-right:6px"></i>
+                  Tu cita está <strong>confirmada y pendiente</strong>. Si necesitas reagendar, comunícate con nosotros con al menos 24 horas de anticipación.
+                </p>
+              </div>` : `
+              <div style="margin-top:16px;padding:14px;background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0">
+                <p style="font-size:.75rem;color:#166534;line-height:1.6">
+                  <i class="fas fa-check-circle" style="margin-right:6px"></i>
+                  Tu sesión fue completada exitosamente. ¡Esperamos verte en tu próxima cita!
+                </p>
+              </div>`}
+            </div>
+          </div>`;
+        }).join('');
+
+        cont.innerHTML = `
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:16px">
+            ${citas.length} cita${citas.length!==1?'s':''} encontrada${citas.length!==1?'s':''} · código <span style="color:var(--teal);font-family:monospace">${codigo}</span>
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">
+            ${cards}
+          </div>`;
+        showToast(`${citas.length} cita${citas.length!==1?'s':''} encontrada${citas.length!==1?'s':''} ✓`, 'success');
+
+      } catch(e) {
+        cont.innerHTML = `
+          <div style="text-align:center;padding:60px 0">
+            <div style="font-size:2rem;color:#dc2626;opacity:.4;margin-bottom:12px"><i class="fas fa-triangle-exclamation"></i></div>
+            <p style="font-size:.9rem;color:var(--slate-light)">${e.message}</p>
+          </div>`;
+        showToast('Error de conexión: ' + e.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-search"></i> Buscar mi cita';
+      }
+    }
+  </script>
 </body>
 </html>
